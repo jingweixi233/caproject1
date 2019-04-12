@@ -1,0 +1,38 @@
+.pos 0x0
+main:
+	irmovl stack, %esp
+	irmovl 0, %eax
+	irmovl ele1, %ebx
+	call rsumlist
+	halt
+	
+
+# Sample linked list
+.align 4
+ele1:
+    	.long  0x00a
+    	.long  ele2
+ele2:
+	.long  0x0b0
+   	.long  ele3
+ele3:
+  	.long  0xc00
+	.long  0
+
+rsumlist:
+	andl %ebx, %ebx
+	je end
+	mrmovl (%ebx), %ecx
+	pushl %ecx
+	mrmovl 4(%ebx), %ebx
+	call rsumlist
+	popl %ecx
+	addl %ecx, %eax
+	ret
+end:
+	ret
+
+
+
+.pos 0x200
+stack:

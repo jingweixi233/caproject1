@@ -1,0 +1,41 @@
+  0x000:              | .pos 0x0
+  0x000:              | main:
+  0x000: 30f400020000 | 	irmovl stack, %esp
+  0x006: 30f024000000 | 	irmovl src, %eax
+  0x00c: 30f330000000 | 	irmovl dest, %ebx
+  0x012: 30f103000000 | 	irmovl 3, %ecx
+  0x018: 30f701000000 | 	irmovl 1, %edi
+  0x01e: 803c000000   | 	call copyblock
+                      | 	
+                      | 	
+                      | 
+  0x024:              | .align 4
+                      | # Source block
+  0x024:              | src:
+  0x024: 0a000000     | 	.long 0x00a
+  0x028: b0000000     | 	.long 0x0b0
+  0x02c: 000c0000     | 	.long 0xc00
+                      | 
+                      | # Destination
+  0x030:              | dest:
+  0x030: 11010000     | 	.long 0x111
+  0x034: 22020000     | 	.long 0x222
+  0x038: 33030000     | 	.long 0x333
+                      | 
+  0x03c:              | copyblock:
+  0x03c: 30f500000000 | 	irmovl 0, %ebp
+  0x042:              | loop:
+  0x042: 506000000000 | 	mrmovl (%eax), %esi
+  0x048: 406300000000 | 	rmmovl %esi, (%ebx)
+  0x04e: 30f704000000 | 	irmovl 4, %edi
+  0x054: 6070         | 	addl %edi, %eax
+  0x056: 6073         | 	addl %edi, %ebx	
+  0x058: 6365         | 	xorl %esi, %ebp
+  0x05a: 30f701000000 | 	irmovl 1, %edi
+  0x060: 6171         | 	subl %edi,%ecx
+  0x062: 6211         | 	andl %ecx, %ecx
+  0x064: 7442000000   | 	jne loop
+  0x069: 90           | 	ret
+  0x200:              | .pos 0x200
+  0x200:              | stack:
+                      | 
